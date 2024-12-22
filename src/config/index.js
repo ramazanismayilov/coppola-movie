@@ -11,8 +11,8 @@ module.exports = {
   smtp: {
     from: process.env.SMTP_FROM,
     host: process.env.SMTP_HOST,
-    port: +process.env.SMTP_PORT || 587,
-    secure: process.env.SMTP_SECURE == 1,
+    port: process.env.SMTP_PORT,
+    secure: false,
     user: process.env.SMTP_USER,
     password: process.env.SMTP_PASSWORD,
   },
