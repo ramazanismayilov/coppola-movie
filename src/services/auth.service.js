@@ -2,6 +2,8 @@ const User = require("../models/User.model");
 const { NotFoundError, ConflictError } = require("../utils/error.utils");
 const { encodePayload } = require("../utils/jwt.utils");
 const bcrypt = require("bcrypt");
+const fs = require("fs/promises")
+const renderTemplate = require("../utils/template.utils");
 
 const login = async (params) => {
   const user = await User.findOne({
@@ -20,7 +22,11 @@ const login = async (params) => {
 
   const token = encodePayload({ userId: user._id });
 
-  return { token, user };
+  return {
+    message: "Login is successfully",
+    token,
+    user,
+  };
 };
 
 const register = async (params) => {
@@ -31,11 +37,21 @@ const register = async (params) => {
     throw new ConflictError(`This email or username already exists.`);
   }
 
-  const newUser = new User(params);
+  const user = new User(params);
+  const mailContent = await renderTemplate("welcome-mail", {
+    user: user.toJSON(),
+    activationLink: "http://localhost.com",
+    supportLink: "mailto:support@example.com"
+  })
 
-  await newUser.save();
+  fs.writeFile("test.html", mailContent)
 
-  return newUser;
+  await user.save();
+
+  return {
+    message: "User created successfully",
+    user
+  };
 };
 
 const authService = {
