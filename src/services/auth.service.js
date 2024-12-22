@@ -46,8 +46,6 @@ const register = async (params) => {
     supportLink: "mailto:support@example.com",
   });
 
-  console.log(user);
-
   await sendMail(
     config.smtp.from,
     user.email,
