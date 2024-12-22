@@ -1,34 +1,33 @@
-const { DataTypes } = require("sequelize");
-const sequlize = require("../database/");
 const bcrypt = require("bcrypt");
+const { Schema, model } = require("mongoose");
 
-const User = sequlize.define("User", {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+const UserSchema = new Schema({
   username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
+    type: String,
+    required: true,
+    unique: true,
   },
   email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
+    type: String,
+    required: true,
+    unique: true,
   },
   password: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   phone: {
-    type: DataTypes.STRING,
+    type: String,
   },
 });
 
-User.beforeCreate(async (user) => {
-  user.password = await bcrypt.hash(user.password, 10);
+UserSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = bcrypt.hash(this.password, 10);
+  }
+  next();
 });
+
+const User = model("User", UserSchema);
 
 module.exports = User;

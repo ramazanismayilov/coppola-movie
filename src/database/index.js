@@ -1,17 +1,11 @@
-const { Sequelize } = require("sequelize");
+const { default: mongoose } = require("mongoose");
 const config = require("../config");
 
-const sequelize = new Sequelize(config.databaseUrl, { logging: false });
-
-sequelize
-  .authenticate()
+mongoose
+  .connect(config.databaseUrl)
   .then(() => {
     console.log("Database connection is successfully");
   })
   .catch((err) => {
     console.error("Database connection is failed", err);
   });
-
-sequelize.sync({ alter: true });
-
-module.exports = sequelize;
