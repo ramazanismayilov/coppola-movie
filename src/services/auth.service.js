@@ -2,8 +2,10 @@ const User = require("../models/User.model");
 const { NotFoundError, ConflictError } = require("../utils/error.utils");
 const { encodePayload } = require("../utils/jwt.utils");
 const bcrypt = require("bcrypt");
-const fs = require("fs/promises")
+const fs = require("fs/promises");
 const renderTemplate = require("../utils/template.utils");
+const sendMail = require("../utils/mail.utils");
+const config = require("../config");
 
 const login = async (params) => {
   const user = await User.findOne({
@@ -41,16 +43,23 @@ const register = async (params) => {
   const mailContent = await renderTemplate("welcome-mail", {
     user: user.toJSON(),
     activationLink: "http://localhost.com",
-    supportLink: "mailto:support@example.com"
-  })
+    supportLink: "mailto:support@example.com",
+  });
 
-  fs.writeFile("test.html", mailContent)
+  console.log(user);
+
+  await sendMail(
+    config.smtp.from,
+    user.email,
+    "Welcome to our website",
+    mailContent
+  );
 
   await user.save();
 
   return {
     message: "User created successfully",
-    user
+    user,
   };
 };
 

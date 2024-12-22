@@ -7,7 +7,6 @@ const router = require("./src/routes");
 const swaggerUI = require("swagger-ui-express");
 const swagger = require("./swagger");
 const { engine } = require("express-handlebars");
-const userService = require("./src/services/user.service");
 const app = express();
 
 //* connectDB
@@ -28,15 +27,10 @@ app.engine(
   })
 );
 app.set("view engine", ".hbs");
-
 app.set("views", path.join(__dirname, "./src/views"));
 
 app.get("/", async (req, res) => {
-  let list = await userService.list();
-  res.render("home", {
-    name: req.query.name,
-    users: list,
-  });
+  res.render("home");
 });
 
 //* swagger-ui
