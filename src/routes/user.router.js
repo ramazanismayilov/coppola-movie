@@ -2,6 +2,7 @@ const { Router } = require("express");
 const userController = require("../controllers/user.controller");
 const validationMiddleware = require("../middlewares/validation.middleware");
 const userValidation = require("../validations/user.validation");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const userRouter = Router();
 
@@ -76,4 +77,46 @@ userRouter.post(
   userController.create
 );
 
+/**
+ * @swagger
+ * /api/users/password:
+ *   post:
+ *     summary: Reset user password
+ *     tags:
+ *       - Users
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               currentPassword:
+ *                 type: string
+ *                 description: The user's current password.
+ *                 example: currentP@ssw0rd
+ *               newPassword:
+ *                 type: string
+ *                 description: The new password for the user.
+ *                 example: newP@ssw0rd123
+ *               repeatPassword:
+ *                 type: string
+ *                 description: Confirmation of the new password.
+ *                 example: newP@ssw0rd123
+ *     responses:
+ *       200:
+ *         description: Password reset successfully.
+ *       400:
+ *         description: Validation error or mismatched passwords.
+ *       401:
+ *         description: Unauthorized or invalid token.
+ */
+userRouter.post(
+  "/password",
+  authMiddleware,
+  validationMiddleware(userValidation.resetPassword),
+  userController.resetPassword
+);
 module.exports = userRouter;

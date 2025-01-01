@@ -10,6 +10,20 @@ const swagger = swaggerJSDoc({
       title: "Coppola ecommerce movie website",
       version: "1.0.0",
     },
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        BearerAuth: [],
+      },
+    ],
   },
   apis: [routerPath],
 });

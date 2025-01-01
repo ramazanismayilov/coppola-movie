@@ -18,9 +18,19 @@ const create = async (req, res, next) => {
   }
 };
 
+const resetPassword = async (req, res, next) => {
+  try {
+    const result = await userService.resetPassword(req.user._id, req.body);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const userController = {
   list,
   create,
+  resetPassword
 };
 
 module.exports = userController;

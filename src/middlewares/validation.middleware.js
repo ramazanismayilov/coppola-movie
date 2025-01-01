@@ -2,7 +2,10 @@ const validationMiddleware = (schema) => {
   return (req, res, next) => {
     let { success, data, error } = schema.safeParse(req.body);
 
-    if (!success) return res.status(400).json({ error: error.issues });
+    if (!success) {
+      const messages = error.issues.map((issue) => issue.message);
+      return res.status(400).json({ error: messages });
+    }
 
     req.body = data;
 

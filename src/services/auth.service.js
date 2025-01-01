@@ -19,9 +19,10 @@ const login = async (params) => {
   }
 
   const isPasswordValid = await bcrypt.compare(params.password, user.password);
-  if (!isPasswordValid)
+  if (!isPasswordValid){
+    console.log("Password validation failed");
     throw new NotFoundError("Email, username or password is wrong");
-
+  }
   const token = encodePayload({ userId: user._id });
 
   return {

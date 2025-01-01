@@ -19,8 +19,15 @@ const create = z.object({
     .optional(),
 });
 
+const resetPassword = z.object({
+  currentPassword: z.string().min(5).max(30),
+  newPassword: z.string().min(5).max(30),
+  repeatPassword: z.string().min(5).max(30),
+})
+
 const userValidation = {
   create,
+  resetPassword
 };
 
 module.exports = userValidation;
