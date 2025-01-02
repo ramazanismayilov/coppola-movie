@@ -6,6 +6,7 @@ dotenv.config({ path: envPath });
 
 module.exports = {
   port: process.env.PORT,
+  appUrl: process.env.APP_URL,
   databaseUrl: process.env.DATABASE_URL,
   jwtSecret: process.env.JWT_SECRET,
   smtp: {

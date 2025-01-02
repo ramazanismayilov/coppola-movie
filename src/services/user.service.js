@@ -1,9 +1,5 @@
 const User = require("../models/User.model");
-const {
-  NotFoundError,
-  ValidationError,
-  AppError,
-} = require("../utils/error.utils");
+const { NotFoundError, ValidationError } = require("../utils/error.utils");
 const bcrypt = require("bcrypt");
 
 const list = async () => {
@@ -29,15 +25,14 @@ const resetPassword = async (userId, params) => {
   if (!checkPassword)
     throw new ValidationError("Current password is not correct");
 
-  const isSameAsCurrent  = await bcrypt.compare(newPassword, user.password);
-  if (isSameAsCurrent )
+  const isSameAsCurrent = await bcrypt.compare(newPassword, user.password);
+  if (isSameAsCurrent)
     throw new ValidationError(
       "New password cannot be the same as the current password"
     );
 
   user.password = await bcrypt.hash(newPassword, 10);
   await user.save();
-  console.log("Password updated successfully in the database:", user.password);
 
   return {
     message: "User password is succesfully updated",

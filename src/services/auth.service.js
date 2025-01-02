@@ -19,7 +19,7 @@ const login = async (params) => {
   }
 
   const isPasswordValid = await bcrypt.compare(params.password, user.password);
-  if (!isPasswordValid){
+  if (!isPasswordValid) {
     console.log("Password validation failed");
     throw new NotFoundError("Email, username or password is wrong");
   }
@@ -40,12 +40,15 @@ const register = async (params) => {
     throw new ConflictError(`This email or username already exists.`);
   }
 
-  const user = new User(params);
+  const hashedPassword = await bcrypt.hash(params.password, 10);
+
+  const user = new User({ ...params, password: hashedPassword });
+
   const mailContent = await renderTemplate("welcome-mail", {
     user: user.toJSON(),
     activationLink: "http://localhost.com",
     supportLink: "mailto:support@example.com",
-  });
+  }); 
 
   await sendMail(
     config.smtp.from,
