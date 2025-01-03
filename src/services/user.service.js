@@ -7,10 +7,33 @@ const config = require("../config");
 const renderTemplate = require("../utils/template.utils");
 const uuid = require("uuid");
 const Activation = require("../models/Activation.model");
+const Upload = require("../models/Upload.model");
 
 const list = async () => {
   const list = await User.find();
   return list.map((user) => user.toJSON());
+};
+
+const updateProfile = async (id, params) => {
+  let user = await User.findById(id);
+  if (!user) throw new NotFoundError("User is not found");
+
+  if (params.avatar) {
+    let image = await Upload.findById(params.avatar);
+    if (!image) throw new NotFoundError("Image is not found");
+
+    user.avatar = image._id;
+
+    delete params.avatar;
+  }
+
+  for (let [key, value] of Object.entries(params)) {
+    user[key] = value;
+  }
+
+  await user.save();
+
+  return user;
 };
 
 const resetPassword = async (userId, params) => {
@@ -41,7 +64,7 @@ const resetPassword = async (userId, params) => {
 };
 
 const forgetPassword = async (email) => {
-  const user = await User.findOne({email});
+  const user = await User.findOne({ email });
   if (!user) throw new NotFoundError("User with this email is not exists");
 
   const activationToken = uuid.v4();
@@ -69,7 +92,7 @@ const forgetPassword = async (email) => {
 const confirmPassword = async (params) => {
   const activation = await Activation.findOne({
     token: params.token,
-    expireDate: { $gte: new Date() }, 
+    expireDate: { $gte: new Date() },
   });
   if (!activation) throw new AppError("Activation token is wrong", 400);
 
@@ -90,9 +113,10 @@ const confirmPassword = async (params) => {
 
 const userService = {
   list,
+  updateProfile,
   resetPassword,
   forgetPassword,
-  confirmPassword
+  confirmPassword,
 };
 
 module.exports = userService;

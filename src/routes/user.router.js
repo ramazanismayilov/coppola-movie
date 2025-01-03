@@ -41,6 +41,86 @@ userRouter.get("/", userController.list);
 
 /**
  * @swagger
+ * /api/users/profile:
+ *   post:
+ *     summary: Update user profile
+ *     description: Updates the user profile with the provided data.
+ *     tags:
+ *       - "Users"
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: "The user's username"
+ *               email:
+ *                 type: string
+ *                 description: "The user's email address"
+ *               phone:
+ *                 type: string
+ *                 description: "The user's phone number (optional)"
+ *               avatar:
+ *                 type: string
+ *                 description: "The image ID (optional, to add an avatar)"
+ *               location:
+ *                 type: string
+ *                 description: "The user's location (optional)"
+ *               gender:
+ *                 type: string
+ *                 enum:
+ *                   - male
+ *                   - female
+ *                 description: "The user's gender (optional)"
+ *             required:
+ *               - username
+ *               - email
+ *     responses:
+ *       200:
+ *         description: "User profile updated successfully"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 username:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 phone:
+ *                   type: string
+ *                 avatar:
+ *                   type: string
+ *                 location:
+ *                   type: string
+ *                 gender:
+ *                   type: string
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *       400:
+ *         description: "Invalid user data provided"
+ *       401:
+ *         description: "User authentication required"
+ *       404:
+ *         description: "User not found"
+ *       500:
+ *         description: "Server error"
+ */
+userRouter.post(
+  "/profile",
+  authMiddleware,
+  validationMiddleware(userValidation.updateProfile),
+  userController.updateProfile
+);
+
+/**
+ * @swagger
  * /api/users/reset_password:
  *   post:
  *     summary: Reset user password

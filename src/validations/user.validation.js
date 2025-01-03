@@ -1,5 +1,13 @@
 const { z } = require("zod");
 
+const updateProfile = z.object({
+  username: z.string().optional(),
+  phone: z.string().optional(),
+  gender: z.enum(["male", "female"]).optional(),
+  location: z.string().optional(),
+  avatar: z.string().optional(), 
+});
+
 const resetPassword = z.object({
   currentPassword: z.string().min(5).max(30),
   newPassword: z.string().min(5).max(30),
@@ -17,6 +25,7 @@ const confirmPassword = z.object({
 });
 
 const userValidation = {
+  updateProfile,
   resetPassword,
   forgetPassword,
   confirmPassword,
