@@ -6,9 +6,13 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 const userRouter = Router();
 
+userRouter.get("/forget_password", (req, res, next) => {
+  res.render("forget-password", { layout: false });
+});
+
 /**
  * @swagger
- * /api/users/:
+ * /api/users:
  *   get:
  *     summary: Get a list of users
  *     tags:
@@ -37,49 +41,7 @@ userRouter.get("/", userController.list);
 
 /**
  * @swagger
- * /api/users/:
- *   post:
- *     summary: Create a new user
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 description: The username of the user.
- *                 example: john_doe
- *               email:
- *                 type: string
- *                 description: The email of the user.
- *                 example: john@example.com
- *               password:
- *                 type: string
- *                 description: The password of the user.
- *                 example: mySecureP@ssw0rd
- *               phone:
- *                 type: string
- *                 description: The phone number of the user.
- *                 example: "+1234567890"
- *     responses:
- *       201:
- *         description: User successfully created.
- *       400:
- *         description: Validation error.
- */
-userRouter.post(
-  "/",
-  validationMiddleware(userValidation.create),
-  userController.create
-);
-
-/**
- * @swagger
- * /api/users/password:
+ * /api/users/reset_password:
  *   post:
  *     summary: Reset user password
  *     tags:
@@ -114,9 +76,57 @@ userRouter.post(
  *         description: Unauthorized or invalid token.
  */
 userRouter.post(
-  "/password",
+  "/reset_password",
   authMiddleware,
   validationMiddleware(userValidation.resetPassword),
   userController.resetPassword
 );
+
+/**
+ * @swagger
+ * /api/users/forget_password:
+ *   post:
+ *     summary: Create a forget password token
+ *     description: Sends a token to the user's email for password reset.
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The email of the user requesting password reset.
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: A token is successfully created and sent to the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Password reset token has been sent."
+ *       400:
+ *         description: Invalid email or input data.
+ *       404:
+ *         description: User with the provided email not found.
+ */
+userRouter.post(
+  "/forget_password",
+  validationMiddleware(userValidation.forgetPassword),
+  userController.forgetPassword
+);
+
+userRouter.post(
+  "/forget_password/confirm",
+  validationMiddleware(userValidation.confirmPassword),
+  userController.confirmPassword
+);
+
 module.exports = userRouter;

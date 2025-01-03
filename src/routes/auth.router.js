@@ -74,7 +74,7 @@ authRouter.post(
  *     tags:
  *       - Auth
  *     summary: Register a new user
- *     description: The user must enter their username, email, and password, but may not enter their phone number. username-required, email-required, password-required, phone-optional.
+ *     description: The user must enter their username, email, and password. Username, email, and password are required.
  *     requestBody:
  *       required: true
  *       content:
@@ -94,10 +94,6 @@ authRouter.post(
  *                 type: string
  *                 description: The password for the new user.
  *                 example: john123
- *               phone:
- *                 type: string
- *                 description: The phone number for the new user (optional).
- *                 example: +11234567890
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -121,19 +117,16 @@ authRouter.post(
  *                       type: string
  *                       description: The email address of the user.
  *                       example: johndoe@example.com
- *                     phone:
- *                       type: string
- *                       description: The phone number of the user.
- *                       example: +11234567890
  *       400:
  *         description: Invalid input or user already exists
  *       500:
  *         description: Internal server error
  */
 authRouter.post(
-    "/register",
-    validationMiddleware(authValidation.register),
-    authController.register
-  );
+  "/register",
+  validationMiddleware(authValidation.register),
+  authController.register
+);
+
 
 module.exports = authRouter;

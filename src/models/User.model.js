@@ -18,6 +18,20 @@ const UserSchema = new Schema(
     },
     phone: {
       type: String,
+      default: null,
+    },
+    avatar: {
+      type: String,
+      default: null,
+    },
+    location: {
+      type: String,
+      default: null,
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+      default: null,
     },
   },
   { timestamps: true }

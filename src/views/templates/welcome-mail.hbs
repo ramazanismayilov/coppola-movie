@@ -11,12 +11,9 @@
       8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); } .email-header {
       text-align: center; padding-bottom: 20px; } .email-header h1 { color:
       #4318a7; } .email-body { font-size: 16px; color: #333333; line-height:
-      1.5; margin-bottom: 20px; } .email-body p { margin: 10px 0; } .button {
-      display: inline-block; padding: 10px 20px; background-color: #4318a7;
-      color: #ffffff; text-decoration: none; border-radius: 4px; text-align:
-      center; font-size: 16px; } .footer { font-size: 14px; color: #777777;
-      text-align: center; margin-top: 20px; } .footer a { color: #fff;
-      text-decoration: none; }
+      1.5; margin-bottom: 20px; } .email-body p { margin: 10px 0; } .footer {
+      font-size: 14px; color: #777777; text-align: center; margin-top: 20px; }
+      .footer a { color: #4318a7; text-decoration: none; }
     </style>
   </head>
   <body>
@@ -25,20 +22,15 @@
         <h1>Welcome, {{user.username}}!</h1>
       </div>
       <div class="email-body">
-        <p>Thank you for registering with us! We are happy to see you on this
-          platform.</p>
-        <p>To get started, please activate your account by clicking the link
-          below:</p>
-        <p><a href="{{activationLink}}" class="button">Activate Account</a></p>
-        <p>If you have any questions or need assistance, feel free to reach out
-          to our support team:</p>
-        <p><a href="{{supportLink}}" class="button">Contact Support</a></p>
+        <p>Thank you for joining us! We're thrilled to have you on board.</p>
+        <p>Get ready to explore all the exciting features we have to offer. Your
+          journey towards a more amazing experience starts right here!</p>
+        <p>Stay tuned for updates and feel free to reach out if you need any
+          help. We're here for you!</p>
       </div>
       <div class="footer">
-        <p>Best regards,<br /> The Coppola</p>
-        <p><a href="{{supportLink}}">Need help?</a>
-          |
-          <a href="{{activationLink}}">Activate Account</a></p>
+        <p>Best regards,<br />The Coppola Team</p>
+        <p><a href="#">Need help?</a> | <a href="#">Explore More</a></p>
       </div>
     </div>
   </body>

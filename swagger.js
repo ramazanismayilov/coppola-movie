@@ -12,7 +12,7 @@ const swagger = swaggerJSDoc({
     },
     components: {
       securitySchemes: {
-        BearerAuth: {
+        bearerAuth: {
           type: 'http',
           scheme: 'bearer',
           bearerFormat: 'JWT',
@@ -21,7 +21,7 @@ const swagger = swaggerJSDoc({
     },
     security: [
       {
-        BearerAuth: [],
+        bearerAuth: [],
       },
     ],
   },

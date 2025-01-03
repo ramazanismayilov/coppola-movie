@@ -21,10 +21,7 @@ const register = z.object({
   password: z
     .string()
     .min(5, "Password must be at least 6 characters long.")
-    .max(30, "Password can be up to 50 characters long."),
-  phone: z
-    .string()
-    .optional(),
+    .max(30, "Password can be up to 50 characters long.")
 });
 
 const authValidation = {
