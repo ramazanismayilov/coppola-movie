@@ -7,12 +7,7 @@ const sendMail = require("../utils/mail.utils");
 const config = require("../config");
 
 const login = async (params) => {
-  const user = await User.findOne({
-    $or: [
-      { email: params.emailOrUsername },
-      { username: params.emailOrUsername },
-    ],
-  }).lean();
+  const user = await User.findOne({ email: params.email }).lean();
   if (!user) {
     throw new NotFoundError("Email, username or password is incorrect.");
   }
@@ -30,28 +25,17 @@ const login = async (params) => {
     user: {
       ...user,
       password: undefined,
-      location: undefined,
-      phone: undefined,
-      gender: undefined,
-      avatar: user.avatar || null,
     },
   };
 };
 
 const register = async (params) => {
-  const { username, email, password } = params;
-  if (!username || !email || !password) {
-    throw new Error("Username, email, and password are required.");
-  }
-
-  const existingUser = await User.findOne({
-    $or: [{ email }, { username }],
-  });
+  const existingUser = await User.findOne({ email: params.email });
   if (existingUser) {
     throw new ConflictError(`This email or username already exists.`);
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(params.password, 10);
 
   const user = new User({ ...params, password: hashedPassword });
 

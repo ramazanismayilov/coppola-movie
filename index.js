@@ -14,8 +14,9 @@ require("./src/database");
 
 //* middleware
 app.use(cors({
-  origin: '*',  
+  origin: 'https://coppola-movie.vercel.app',  
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json());

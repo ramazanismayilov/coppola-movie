@@ -6,10 +6,6 @@ const authMiddleware = require("../middlewares/auth.middleware");
 
 const userRouter = Router();
 
-userRouter.get("/forget_password", (req, res, next) => {
-  res.render("forget-password", { layout: false });
-});
-
 /**
  * @swagger
  * /api/users:
@@ -160,53 +156,6 @@ userRouter.post(
   authMiddleware,
   validationMiddleware(userValidation.resetPassword),
   userController.resetPassword
-);
-
-/**
- * @swagger
- * /api/users/forget_password:
- *   post:
- *     summary: Create a forget password token
- *     description: Sends a token to the user's email for password reset.
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 description: The email of the user requesting password reset.
- *                 example: user@example.com
- *     responses:
- *       200:
- *         description: A token is successfully created and sent to the user.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Password reset token has been sent."
- *       400:
- *         description: Invalid email or input data.
- *       404:
- *         description: User with the provided email not found.
- */
-userRouter.post(
-  "/forget_password",
-  validationMiddleware(userValidation.forgetPassword),
-  userController.forgetPassword
-);
-
-userRouter.post(
-  "/forget_password/confirm",
-  validationMiddleware(userValidation.confirmPassword),
-  userController.confirmPassword
 );
 
 module.exports = userRouter;
