@@ -12,10 +12,11 @@ const allReviews = async (req, res, next) => {
 const addReview = async (req, res, next) => {
   try {
     const newReview = await reviewService.addReview(
-      req.product._id,
+      req.body.productId,
       req.user.id,
       req.body
     );
+
     res.status(201).json(newReview);
   } catch (error) {
     next(error);

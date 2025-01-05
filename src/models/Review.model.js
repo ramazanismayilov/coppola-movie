@@ -31,5 +31,14 @@ const ReviewSchema = new Schema(
   { timestamps: true }
 );
 
+ReviewSchema.pre("remove", async function (next) {
+  try {
+    await Review.deleteMany({ parentId: this._id });
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 const Review = model("Review", ReviewSchema);
 module.exports = Review;

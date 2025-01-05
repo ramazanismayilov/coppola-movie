@@ -6,13 +6,9 @@ const generateSlug = require("../utils/slug.utils");
 const allProducts = async () => {
   const allProducts = await Product.find()
     .populate("image", "url")
-    .populate("review", "user comment rating parentId")
+    .populate("reviews", "user comment rating parentId")
     .populate("category", "name")
-    .sort({ order: 1 });
-    allProducts.forEach(product => {
-      console.log("Reviews", product.review); // Access reviews for each product
-      console.log("Title", product.title); // Access title for each product
-    });
+    .sort({ createdAt: -1 });
   return allProducts;
 };
 

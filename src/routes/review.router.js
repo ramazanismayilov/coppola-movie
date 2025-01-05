@@ -12,7 +12,6 @@ const reviewRouter = Router();
  *   name: Reviews
  */
 
-
 /**
  * @swagger
  * /api/reviews:
