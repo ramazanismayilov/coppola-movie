@@ -93,8 +93,6 @@ authRouter.post(
  *         - The first letter of the password should be uppercase.
  *         - The password must be between 6 and 30 characters long.
  *         - The password must contain at least one number.
- *       - Name and surname requirements:
- *         - The name and surname must each be between 6 and 30 characters long.
  *     requestBody:
  *       required: true
  *       content:

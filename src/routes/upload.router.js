@@ -45,7 +45,42 @@ uploadRouter.post(
   authMiddleware,
   roleMiddleware("admin"),
   upload.array("images", 10), 
-  uploadController.uploadImages
+  uploadController.addImage
+);
+
+/**
+ * @swagger
+ * /api/upload/images/{id}:
+ *   delete:
+ *     summary: Delete an image by ID
+ *     description: Deletes an image from the server by its ID. Only accessible to admin users.
+ *     tags: [Upload Images]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the image to delete
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Image deleted successfully
+ *       401:
+ *         description: Unauthorized - User is not authenticated
+ *       403:
+ *         description: Forbidden - User does not have the required permissions
+ *       404:
+ *         description: Not Found - Image with the specified ID does not exist
+ *       500:
+ *         description: Internal server error
+ */
+uploadRouter.delete(
+  "/images/:id", 
+  authMiddleware,
+  roleMiddleware("admin"),
+  uploadController.deleteImage
 );
 
 module.exports = uploadRouter;

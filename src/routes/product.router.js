@@ -72,28 +72,6 @@ const productRouter = Router();
  *                     type: string
  *                     description: Tags associated with the product
  *                     example: "fashion, casual"
- *                   review:
- *                     type: array
- *                     description: List of reviews related to the product
- *                     items:
- *                       type: object
- *                       properties:
- *                         _id:
- *                           type: string
- *                           description: The unique identifier of the review
- *                           example: "607f1f77bcf86cd7994f56f9"
- *                         user:
- *                           type: string
- *                           description: The user ID of the person who wrote the review
- *                           example: "607f1f77bcf86cd7994f56f6"
- *                         comment:
- *                           type: string
- *                           description: The review comment
- *                           example: "Great quality, very comfortable!"
- *                         rating:
- *                           type: number
- *                           description: The rating out of 5 for the product
- *                           example: 5
  *       400:
  *         description: Bad request, invalid parameters
  *       500:
@@ -152,12 +130,6 @@ productRouter.get("/", productController.allProducts);
  *                 type: string
  *                 description: Tags associated with the product
  *                 example: "fashion"
- *               review:
- *                 type: array
- *                 items:
- *                   type: string
- *                   description: Review ID (references the Review model)
- *                   example: "607f1f77bcf86cd7994f56f9"
  *     responses:
  *       201:
  *         description: Product added successfully
