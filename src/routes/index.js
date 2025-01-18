@@ -6,6 +6,7 @@ const categoryRouter = require("./category.router");
 const productRouter = require("./product.router");
 const reviewRouter = require("./review.router");
 const forgetPasswordRouter = require("./forgetPassword.router");
+const blogRouter = require("./blog.router");
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use("/upload", uploadRouter);
 router.use("/category", categoryRouter);
 router.use("/products", productRouter);
 router.use("/reviews", reviewRouter);
+router.use("/blogs", blogRouter);
 
 module.exports = router;
