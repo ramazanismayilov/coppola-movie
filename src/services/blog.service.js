@@ -1,6 +1,7 @@
 const Blog = require("../models/Blog.model");
 const { NotFoundError } = require("../utils/error.utils");
 const generateSlug = require("../utils/slug.utils");
+const { deleteImage } = require("./upload.service");
 
 const addBlog = async (params) => {
   const existsBlog = await Blog.findOne({ title: params.title });
@@ -31,9 +32,32 @@ const singleBlog = async (id) => {
   return singleBlog;
 };
 
-const updateBlog = () => {};
+const updateBlog = async (id, params) => {
+  if (!params.slug) {
+    params.slug = generateSlug(params.title);
+  }
 
-const deleteBlog = () => {};
+  const blog = await Blog.findByIdAndUpdate(id, params, {
+    new: true,
+  });
+  if (!blog) throw new NotFoundError("Blog is not found");
+  return {
+    message: "Blog deleted succesfully",
+    blog,
+  };
+};
+
+const deleteBlog = async (id) => {
+  const blog = await Blog.findByIdAndDelete(id);
+  if (!blog) throw new NotFoundError("Blog is not found");
+  console.log(blog.image._id);
+
+  await deleteImage(blog.image._id);
+  return {
+    message: "Blog deleted succesfully",
+    blog,
+  };
+};
 
 const blogService = {
   addBlog,

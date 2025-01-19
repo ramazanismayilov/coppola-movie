@@ -27,8 +27,23 @@ const singleBlog = async (req, res, next) => {
   }
 };
 
-const updateBlog = () => {};
-const deleteBlog = () => {};
+const updateBlog = async (req, res, next) => {
+  try {
+    const updatedBlog = await blogService.updateBlog(req.params.id, req.body);
+    res.json(updatedBlog);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteBlog = async (req, res, next) => {
+  try {
+    const deletedBlog = await blogService.deleteBlog(req.params.id);
+    res.json(deletedBlog);
+  } catch (error) {
+    next(error);
+  }
+};
 
 const blogController = {
   addBlog,
