@@ -9,8 +9,24 @@ const addBlog = async (req, res, next) => {
   }
 };
 
-const allBlogs = () => {};
-const singleBlog = () => {};
+const allBlogs = async (req, res, next) => {
+  try {
+    const allBlogs = await blogService.allBlogs();
+    res.json(allBlogs);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const singleBlog = async (req, res, next) => {
+  try {
+    const singleBlog = await blogService.singleBlog(req.params.id);
+    res.json(singleBlog);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const updateBlog = () => {};
 const deleteBlog = () => {};
 

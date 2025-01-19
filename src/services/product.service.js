@@ -1,5 +1,4 @@
 const Product = require("../models/Product.model");
-const Review = require("../models/Review.model");
 const { ConflictError } = require("../utils/error.utils");
 const generateSlug = require("../utils/slug.utils");
 
