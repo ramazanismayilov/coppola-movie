@@ -113,7 +113,7 @@ blogRouter.post(
   "/",
   authMiddleware,
   roleMiddleware("admin"),
-  validationMiddleware(blogValidation.createBlog),
+  // validationMiddleware(blogValidation.createBlog),
   blogController.addBlog
 );
 

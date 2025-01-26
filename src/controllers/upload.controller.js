@@ -3,10 +3,11 @@ const { AppError } = require("../utils/error.utils");
 
 const addImage = async (req, res, next) => {
   try {
-    if (!req.files || req.files.length === 0) {
+    if (!req.file) {
       throw new AppError("At least one file is required", 400);
     }
-    let result = await uploadService.addImage(req.files);
+
+    let result = await uploadService.addImage(req.file);
     res.status(201).json(result);
   } catch (err) {
     next(err);

@@ -44,7 +44,7 @@ uploadRouter.post(
   "/images", 
   authMiddleware,
   roleMiddleware("admin"),
-  upload.array("images", 10), 
+  upload.single("image", 10), 
   uploadController.addImage
 );
 

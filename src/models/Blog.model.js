@@ -11,7 +11,6 @@ const BlogSchema = new Schema(
       type: String,
       trim: true,
       unique: true,
-      required: true,
     },
     image: {
       type: Schema.Types.ObjectId,

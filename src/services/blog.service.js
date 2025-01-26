@@ -4,9 +4,9 @@ const generateSlug = require("../utils/slug.utils");
 const { deleteImage } = require("./upload.service");
 
 const addBlog = async (params) => {
-  const existsBlog = await Blog.findOne({ title: params.title });
+  const existsBlog = await Blog.exists({ title: params.title });
   if (existsBlog) throw new ConflictError("Blog already exists");
-
+  
   if (!params.slug) {
     params.slug = generateSlug(params.title);
   }
@@ -21,7 +21,7 @@ const addBlog = async (params) => {
 
 const allBlogs = async () => {
   const allBlogs = await Blog.findOne()
-    .populate("image", "url")
+    .populate("image")
     .sort({ createdAt: -1 });
   return allBlogs;
 };
