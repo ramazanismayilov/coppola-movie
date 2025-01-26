@@ -42,7 +42,7 @@ const updateBlog = async (id, params) => {
   });
   if (!blog) throw new NotFoundError("Blog is not found");
   return {
-    message: "Blog deleted succesfully",
+    message: "Blog updated succesfully",
     blog,
   };
 };
@@ -50,7 +50,6 @@ const updateBlog = async (id, params) => {
 const deleteBlog = async (id) => {
   const blog = await Blog.findByIdAndDelete(id);
   if (!blog) throw new NotFoundError("Blog is not found");
-  console.log(blog.image._id);
 
   await deleteImage(blog.image._id);
   return {

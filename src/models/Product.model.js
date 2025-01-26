@@ -44,7 +44,19 @@ const ProductSchema = new Schema(
     tag: {
       type: String,
       trim: true,
-    }
+    },
+    discount: {
+      type: Number,
+      default: 0,
+    },
+    discountedPrice: {
+      type: Number,
+      default: 0,
+    },
+    isProductNew: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
