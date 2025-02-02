@@ -12,78 +12,77 @@ const productRouter = Router();
  * /api/products:
  *   get:
  *     summary: Get all products
- *     description: Retrieves a list of all products with their details, including image and reviews.
+ *     description: Retrieves a list of all products with optional filtering by category and pagination.
  *     tags: [Products]
+ *     parameters:
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *         description: Filter products by category ID.
+ *         example: "607f1f77bcf86cd7994f56f7"
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         description: The page number for pagination (0 for all products).
+ *         example: 0
+ *       - in: query
+ *         name: visibleItemCount
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         description: Number of items per page (0 for all products).
+ *         example: 0
  *     responses:
  *       200:
- *         description: A list of products
+ *         description: A paginated list of products
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   _id:
- *                     type: string
- *                     description: The unique identifier of the product
- *                     example: "607f1f77bcf86cd7994f56f7"
- *                   title:
- *                     type: string
- *                     description: The title of the product
- *                     example: "T-shirt"
- *                   image:
+ *               type: object
+ *               properties:
+ *                 products:
+ *                   type: array
+ *                   items:
  *                     type: object
- *                     description: The image object related to the product
  *                     properties:
  *                       _id:
  *                         type: string
- *                         description: The unique identifier of the image
- *                         example: "607f1f77bcf86cd7994f56f8"
- *                       url:
+ *                         description: The unique identifier of the product
+ *                         example: "607f1f77bcf86cd7994f56f7"
+ *                       title:
  *                         type: string
- *                         description: The URL of the image
- *                         example: "/uploads/t-shirt.jpg"
- *                   description:
- *                     type: string
- *                     description: A brief description of the product
- *                     example: "Soft and comfortable T-shirt"
- *                   price:
- *                     type: number
- *                     description: The price of the product
- *                     example: 25.99
- *                   category:
- *                     type: string
- *                     description: The category ID of the product
- *                     example: "607f1f77bcf86cd7994f56f7"
- *                   slug:
- *                     type: string
- *                     description: The URL-friendly slug for the product
- *                     example: "t-shirt"
- *                   order:
- *                     type: number
- *                     description: The display order of the product
- *                     example: 1
- *                   sku:
- *                     type: string
- *                     description: The stock keeping unit of the product
- *                     example: "TSHIRT-001"
- *                   tag:
- *                     type: string
- *                     description: Tags associated with the product
- *                     example: "fashion, casual"
- *                   discount:
- *                     type: number
- *                     description: The discount percentage applied to the product
- *                     example: 10
- *                   discountedPrice:
- *                     type: number
- *                     description: The discount percentage applied to the product
- *                     example: 25.99
- *                   isProductNew:
- *                     type: boolean
- *                     description: Whether the product is newly added or not
- *                     example: true
+ *                         description: The title of the product
+ *                         example: "T-shirt"
+ *                       image:
+ *                         type: object
+ *                         description: The image object related to the product
+ *                         properties:
+ *                           _id:
+ *                             type: string
+ *                             description: The unique identifier of the image
+ *                             example: "607f1f77bcf86cd7994f56f8"
+ *                           url:
+ *                             type: string
+ *                             description: The URL of the image
+ *                             example: "/uploads/t-shirt.jpg"
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     currentPage:
+ *                       type: integer
+ *                       description: The current page number
+ *                       example: 1
+ *                     totalPages:
+ *                       type: integer
+ *                       description: The total number of pages
+ *                       example: 5
+ *                     totalProducts:
+ *                       type: integer
+ *                       description: The total number of products
+ *                       example: 50
  *       400:
  *         description: Bad request, invalid parameters
  *       500:

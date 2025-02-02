@@ -2,7 +2,7 @@ const productService = require("../services/product.service");
 
 const allProducts = async (req, res, next) => {
   try {
-    const allProducts = await productService.allProducts();
+    const allProducts = await productService.allProducts(req.query);
     res.json(allProducts);
   } catch (error) {
     next(error);
@@ -29,7 +29,10 @@ const addProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
   try {
-    const updateProduct = await productService.updateProduct(req.params.id, req.body);
+    const updateProduct = await productService.updateProduct(
+      req.params.id,
+      req.body
+    );
     res.json(updateProduct);
   } catch (error) {
     next(error);

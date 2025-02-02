@@ -3,12 +3,38 @@ const { ConflictError } = require("../utils/error.utils");
 const generateSlug = require("../utils/slug.utils");
 const { deleteImage } = require("./upload.service");
 
-const allProducts = async () => {
-  const allProducts = await Product.find()
+const allProducts = async (filter = {}) => {
+  let where = {};
+
+  if (filter.category) {
+    where.category = {
+      $in: filter.category,
+    };
+  }
+
+  const page = filter.page ? parseInt(filter.page, 10) : 0;
+  const visibleItemCount = filter.visibleItemCount
+    ? parseInt(filter.visibleItemCount, 10)
+    : 0;
+
+  const allProducts = await Product.find(where)
     .populate("image", "url")
     .populate("category", "name")
-    .sort({ createdAt: -1 });
-  return allProducts;
+    .sort({ createdAt: -1 })
+    .skip(page > 0 && visibleItemCount > 0 ? (page - 1) * visibleItemCount : 0)
+    .limit(visibleItemCount > 0 ? visibleItemCount : 0);
+
+  const totalProducts = await Product.countDocuments(where);
+
+  return {
+    data: visibleItemCount > 0 ? allProducts : [],
+    pagination: {
+      currentPage: page,
+      totalPages:
+        visibleItemCount > 0 ? Math.ceil(totalProducts / visibleItemCount) : 0,
+      totalProducts,
+    },
+  };
 };
 
 const singleProduct = async (id) => {
