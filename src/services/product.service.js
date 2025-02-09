@@ -12,6 +12,10 @@ const allProducts = async (filter = {}) => {
     };
   }
 
+  if (filter.search) {
+    where.title = { $regex: filter.search, $options: "i" }; 
+  }
+
   const page = filter.page ? parseInt(filter.page, 10) : 0;
   const visibleItemCount = filter.visibleItemCount
     ? parseInt(filter.visibleItemCount, 10)

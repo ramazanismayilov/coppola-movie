@@ -12,7 +12,7 @@ const productRouter = Router();
  * /api/products:
  *   get:
  *     summary: Get all products
- *     description: Retrieves a list of all products with optional filtering by category and pagination.
+ *     description: Retrieves a list of all products with optional filtering by category, search, and pagination.
  *     tags: [Products]
  *     parameters:
  *       - in: query
@@ -21,6 +21,12 @@ const productRouter = Router();
  *           type: string
  *         description: Filter products by category ID.
  *         example: "607f1f77bcf86cd7994f56f7"
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search products by name.
+ *         example: "T-shirt"
  *       - in: query
  *         name: page
  *         schema:
@@ -89,6 +95,7 @@ const productRouter = Router();
  *         description: Internal server error
  */
 productRouter.get("/", productController.allProducts);
+
 
 /**
  * @swagger
