@@ -19,6 +19,12 @@ const blogRouter = Router();
  *   get:
  *     summary: Retrieve all blogs
  *     tags: [Blogs]
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Filter blogs by title
  *     responses:
  *       200:
  *         description: A list of blogs

@@ -19,8 +19,14 @@ const addBlog = async (params) => {
   };
 };
 
-const allBlogs = async () => {
-  const allBlogs = await Blog.find()
+const allBlogs = async (filter = {}) => {
+  let where = {};
+
+  if (filter.search) {
+    where.title = { $regex: filter.search, $options: "i" }; 
+  }
+
+  const allBlogs = await Blog.find(where)
     .populate("image")
     .sort({ createdAt: -1 });
     return allBlogs;

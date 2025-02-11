@@ -11,7 +11,7 @@ const addBlog = async (req, res, next) => {
 
 const allBlogs = async (req, res, next) => {
   try {
-    const allBlogs = await blogService.allBlogs();
+    const allBlogs = await blogService.allBlogs(req.query);
     res.json(allBlogs);
   } catch (error) {
     next(error);
