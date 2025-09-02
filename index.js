@@ -8,9 +8,10 @@ const swaggerUI = require("swagger-ui-express");
 const swagger = require("./swagger");
 const { engine } = require("express-handlebars");
 const app = express();
- 
+
 //* connectDB
-require("./src/database");
+const connectDB = require("./src/database");
+connectDB().catch(err => console.error(err));
 
 //* middleware
 app.use(cors({
@@ -36,12 +37,10 @@ app.engine(
 app.set("view engine", ".hbs");
 app.set("views", path.join(__dirname, "./src/views"));
 
-app.get("/", async (req, res) => {
-  res.render("home");
-});
+app.get("/", swaggerUI.setup(swagger));
 
 //* swagger-ui
-app.use("/docs", swaggerUI.serve, swaggerUI.setup(swagger));
+app.use("/", swaggerUI.serve, swaggerUI.setup(swagger));
 app.use(
   "/swagger-ui",
   express.static(path.join(__dirname, "node_modules/swagger-ui-dist"))
@@ -54,3 +53,4 @@ app.use(errorMiddleware);
 app.listen(config.port, () => {
   console.log(`Application is running on http://localhost:${config.port}`);
 });
+ 

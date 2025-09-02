@@ -7,7 +7,7 @@ const swagger = swaggerJSDoc({
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Coppola ecommerce movie website",
+      title: "Coppola movie website",
       version: "1.0.0",
     },
     components: {

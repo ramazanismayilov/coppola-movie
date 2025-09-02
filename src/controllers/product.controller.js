@@ -1,7 +1,9 @@
+const connectDB = require("../database");
 const productService = require("../services/product.service");
 
 const allProducts = async (req, res, next) => {
   try {
+    await connectDB();
     const allProducts = await productService.allProducts(req.query);
     res.json(allProducts);
   } catch (error) {
@@ -11,6 +13,7 @@ const allProducts = async (req, res, next) => {
 
 const singleProduct = async (req, res, next) => {
   try {
+    await connectDB();
     const singleProduct = await productService.singleProduct(req.params.id);
     res.json(singleProduct);
   } catch (error) {
@@ -20,6 +23,7 @@ const singleProduct = async (req, res, next) => {
 
 const addProduct = async (req, res, next) => {
   try {
+    await connectDB();
     const newProduct = await productService.addProduct(req.body);
     res.status(201).json(newProduct);
   } catch (error) {
@@ -29,6 +33,7 @@ const addProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
   try {
+    await connectDB();
     const updateProduct = await productService.updateProduct(
       req.params.id,
       req.body
@@ -41,6 +46,7 @@ const updateProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
   try {
+    await connectDB();
     const deleteProduct = await productService.deleteProduct(req.params.id);
     res.json(deleteProduct);
   } catch (error) {

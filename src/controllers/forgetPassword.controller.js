@@ -1,7 +1,9 @@
+const connectDB = require("../database");
 const forgetService = require("../services/forgetPassword.service");
 
 const forgetPassword = async (req, res, next) => {
   try {
+    await connectDB();
     const result = await forgetService.forgetPassword(req.body.email);
     res.json(result);
   } catch (error) {
@@ -11,6 +13,7 @@ const forgetPassword = async (req, res, next) => {
 
 const confirmPassword = async (req, res, next) => {
   try {
+    await connectDB();
     const result = await forgetService.confirmPassword(req.body);
     res.json(result);
   } catch (err) {

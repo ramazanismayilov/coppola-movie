@@ -1,7 +1,9 @@
+const connectDB = require("../database");
 const reviewService = require("../services/review.service");
 
 const allReviews = async (req, res, next) => {
   try {
+    await connectDB();
     const reviews = await reviewService.allReviews();
     res.json(reviews);
   } catch (error) {
@@ -11,6 +13,7 @@ const allReviews = async (req, res, next) => {
 
 const addReview = async (req, res, next) => {
   try {
+    await connectDB();
     const newReview = await reviewService.addReview(
       req.body.productId,
       req.user.id,

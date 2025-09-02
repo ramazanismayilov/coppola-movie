@@ -1,3 +1,4 @@
+const connectDB = require("../database");
 const uploadService = require("../services/upload.service");
 const { AppError } = require("../utils/error.utils");
 
@@ -6,7 +7,7 @@ const addImage = async (req, res, next) => {
     if (!req.file) {
       throw new AppError("At least one file is required", 400);
     }
-
+    await connectDB();
     let result = await uploadService.addImage(req.file);
     res.status(201).json(result);
   } catch (err) {
@@ -16,16 +17,17 @@ const addImage = async (req, res, next) => {
 
 const deleteImage = async (req, res, next) => {
   try {
-    const deletedImage = await uploadService.deleteImage(req.params.id)
-    res.json(deletedImage)
+    await connectDB();
+    const deletedImage = await uploadService.deleteImage(req.params.id);
+    res.json(deletedImage);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 const uploadController = {
   addImage,
-  deleteImage
+  deleteImage,
 };
 
 module.exports = uploadController;

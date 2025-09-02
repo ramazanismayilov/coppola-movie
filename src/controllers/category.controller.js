@@ -1,7 +1,9 @@
+const connectDB = require("../database");
 const categoryService = require("../services/category.service");
 
 const allCategories = async (req, res, next) => {
   try {
+    await connectDB();
     const allCategories = await categoryService.allCategories();
     res.json(allCategories);
   } catch (error) {
@@ -11,6 +13,7 @@ const allCategories = async (req, res, next) => {
 
 const addCategory = async (req, res, next) => {
   try {
+    await connectDB();
     const newCategory = await categoryService.addCategory(req.body);
     res.status(201).json(newCategory);
   } catch (error) {
@@ -20,6 +23,7 @@ const addCategory = async (req, res, next) => {
 
 const updateCategory = async (req, res, next) => {
   try {
+    await connectDB();
     const updatedCategory = await categoryService.updateCategory(
       req.params.id,
       req.body
@@ -32,6 +36,7 @@ const updateCategory = async (req, res, next) => {
 
 const deleteCategory = async (req, res, next) => {
   try {
+    await connectDB();
     const deletedCategory = await categoryService.deleteCategory(req.params.id);
     res.json(deletedCategory);
   } catch (error) {
