@@ -2,11 +2,10 @@
   "name": "coppola",
   "version": "1.0.0",
   "main": "index.js",
-"scripts": {
-  "dev": "nodemon ./src/index.ts",
-  "build": "tsc",
-  "start": "node ./dist/index.js"
-},
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
